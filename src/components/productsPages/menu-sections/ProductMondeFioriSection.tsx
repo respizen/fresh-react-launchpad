@@ -8,17 +8,17 @@ const ProductMondeFioriSection = () => {
         title="Notre monde"
         items={[
           {
-            href: "/category/le-monde-fiori/homme/histoire",
+            href: "/monde-fiori/histoire",
             title: "Histoire",
             description: "Collections élégantes pour mariage"
           },
           {
-            href: "/category/le-monde-fiori/homme/collection",
-            title: "collection",
+            href: "/monde-fiori/collection",
+            title: "Collection",
             description: "Design festifs"
           },
           {
-            href: "/category/le-monde-fiori/homme/dna",
+            href: "/monde-fiori/dna",
             title: "DNA",
             description: "Design festifs"
           }

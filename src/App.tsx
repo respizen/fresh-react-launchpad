@@ -20,6 +20,9 @@ const PromoCodesPage = React.lazy(() => import('./pages/PromoCodesPage'));
 const OrderPreviewPage = React.lazy(() => import('./pages/OrderPreviewPage'));
 const ProductDetailPage = React.lazy(() => import('./pages/ProductDetailPage'));
 const FooterCategoryPage = React.lazy(() => import('./pages/FooterCategoryPage'));
+const MondeFioriHistoire = React.lazy(() => import('./pages/MondeFioriHistoire'));
+const MondeFioriCollection = React.lazy(() => import('./pages/MondeFioriCollection'));
+const MondeFioriDNA = React.lazy(() => import('./pages/MondeFioriDNA'));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -135,6 +138,31 @@ const App = () => (
                   element={
                     <Suspense fallback={<PageLoader />}>
                       <FooterCategoryPage />
+                    </Suspense>
+                  } 
+                />
+                {/* New Monde Fiori routes */}
+                <Route 
+                  path="/monde-fiori/histoire" 
+                  element={
+                    <Suspense fallback={<PageLoader />}>
+                      <MondeFioriHistoire />
+                    </Suspense>
+                  } 
+                />
+                <Route 
+                  path="/monde-fiori/collection" 
+                  element={
+                    <Suspense fallback={<PageLoader />}>
+                      <MondeFioriCollection />
+                    </Suspense>
+                  } 
+                />
+                <Route 
+                  path="/monde-fiori/dna" 
+                  element={
+                    <Suspense fallback={<PageLoader />}>
+                      <MondeFioriDNA />
                     </Suspense>
                   } 
                 />
