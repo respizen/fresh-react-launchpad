@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchAllProducts } from '@/services/productsApi';
 import { useCart } from '@/components/cart/CartProvider';
 import { Button } from '@/components/ui/button';
-import { toast } from '@/components/ui/use-toast';
+import { toast } from '@/hooks/use-toast';
 import { ArrowLeft, Heart } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ProductImageCarousel from '@/components/product-detail/ProductImageCarousel';
@@ -12,14 +12,11 @@ import ProductInfo from '@/components/product-detail/ProductInfo';
 import ProductOptions from '@/components/product-detail/ProductOptions';
 import RelatedProducts from '@/components/product-detail/RelatedProducts';
 import TopNavbar from '@/components/TopNavbar';
-import BrandNavbar from '@/components/BrandNavbar';
-import MainNavbar from '@/components/MainNavbar';
-import Footer from '@/components/Footer';
 import BrandNavbarSection from '@/components/productsPages/BrandNavbarSection';
-import MainNavbarProduct from '@/components/productsPages/MainNavbarProduct';
-import PersonalizationInput from '@/components/cart/PersonalizationInput';
-import { savePersonalization, getPersonalizations } from '@/utils/personalizationStorage';
 import MainNavbarProductDetails from '@/components/MainNavbarProductDetails';
+import Footer from '@/components/Footer';
+import PersonalizationInput from '@/components/cart/PersonalizationInput';
+import BoxSelectionModal from '@/components/modals/BoxSelectionModal';
 
 const ProductDetailPage = () => {
   const { id } = useParams();
@@ -29,6 +26,8 @@ const ProductDetailPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [personalizationText, setPersonalizationText] = useState('');
+  const [showBoxModal, setShowBoxModal] = useState(false);
+  const [pendingCartItem, setPendingCartItem] = useState<any>(null);
 
   const { data: products, isLoading } = useQuery({
     queryKey: ['products'],
@@ -45,6 +44,8 @@ const ProductDetailPage = () => {
     .map(([size]) => size.toUpperCase())
     : [];
 
+  const isChemise = window.location.pathname.includes('chemises');
+
   const handleAddToCart = () => {
     if (!selectedSize) {
       toast({
@@ -56,11 +57,8 @@ const ProductDetailPage = () => {
     }
 
     const trimmedText = personalizationText?.trim() || '';
-    if (trimmedText) {
-      savePersonalization(product!.id, trimmedText);
-    }
 
-    addToCart({
+    const cartItem = {
       id: product!.id,
       name: product!.name,
       price: product!.price,
@@ -69,11 +67,34 @@ const ProductDetailPage = () => {
       size: selectedSize,
       color: product!.colorProduct,
       personalization: trimmedText,
-    });
+    };
 
+    if (isChemise) {
+      setPendingCartItem(cartItem);
+      setShowBoxModal(true);
+    } else {
+      addItemToCart(cartItem);
+    }
+  };
+
+  const handleBoxSelection = (withBox: boolean) => {
+    if (pendingCartItem) {
+      const finalItem = {
+        ...pendingCartItem,
+        name: withBox ? `${pendingCartItem.name} [Avec boîte]` : pendingCartItem.name
+      };
+      addItemToCart(finalItem);
+      sessionStorage.setItem('selectedPackType', withBox ? 'Avec boîte' : 'aucun');
+    }
+    setShowBoxModal(false);
+    setPendingCartItem(null);
+  };
+
+  const addItemToCart = (item: any) => {
+    addToCart(item);
     toast({
       title: "Produit ajouté au panier",
-      description: `${quantity}x ${product!.name} (${selectedSize}) ajouté avec succès`,
+      description: `${item.quantity}x ${item.name} (${item.size}) ajouté avec succès`,
       style: {
         backgroundColor: '#700100',
         color: 'white',
@@ -181,6 +202,16 @@ const ProductDetailPage = () => {
         </div>
       </main>
       <Footer />
+
+      <BoxSelectionModal
+        isOpen={showBoxModal}
+        onClose={() => {
+          setShowBoxModal(false);
+          setPendingCartItem(null);
+        }}
+        onSelect={handleBoxSelection}
+        productName={product.name}
+      />
     </div>
   );
 };
