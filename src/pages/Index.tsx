@@ -1,48 +1,143 @@
-import Navigation from "@/components/Navigation";
-import Hero from "@/components/Hero";
-import Features from "@/components/Features";
-import ProductCard from "@/components/ProductCard";
+import React, { useState, useEffect, Suspense, useTransition } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Skeleton } from "@/components/ui/skeleton";
+import MainNavbarIndex from '@/components/MainNavbarIndex';
+
+const TopNavbar = React.lazy(() => import('../components/TopNavbar'));
+const BrandNavbar = React.lazy(() => import('../components/BrandNavbar'));
+const MainNavbar = React.lazy(() => import('../components/MainNavbar'));
+const Hero = React.lazy(() => import('../components/Hero'));
+const Products = React.lazy(() => import('../components/Products'));
+const Men = React.lazy(() => import('../components/Men'));
+const BrandIntro = React.lazy(() => import('../components/BrandIntro'));
+const NewCollection = React.lazy(() => import('../components/NewCollection'));
+const BrandLocation = React.lazy(() => import('../components/BrandLocation'));
+const Footer = React.lazy(() => import('../components/Footer'));
+const LoadingScreen = React.lazy(() => import('../components/LoadingScreen'));
+const GiftCollection = React.lazy(() => import('../components/GiftCollection'));
+const WhatsAppPopup = React.lazy(() => import('../components/WhatsAppPopup'));
+const SalesPopup = React.lazy(() => import('../components/SalesPopup'));
+const NewsletterPopup = React.lazy(() => import('../components/NewsletterPopup'));
+
+const LoadingFallback = () => (
+  <div className="w-full h-24 animate-pulse">
+    <Skeleton className="w-full h-full" />
+  </div>
+);
 
 const Index = () => {
+  const [isLoading, setIsLoading] = useState(() => {
+    // Check if this is the first visit
+    const hasVisited = sessionStorage.getItem('hasVisitedIndex');
+    return !hasVisited;
+  });
+  const [isInView, setIsInView] = useState(false);
+  const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    // Mark that user has visited the index page
+    sessionStorage.setItem('hasVisitedIndex', 'true');
+    
+    const handleScroll = () => {
+      startTransition(() => {
+        if (window.scrollY > 100) {
+          setIsInView(true);
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-white">
-      <Navigation />
-      <Hero />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1 mb-4 text-sm font-medium bg-black/5 backdrop-blur-sm rounded-full">
-            Products
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-            Featured Collection
-          </h2>
-          <p className="max-w-2xl mx-auto text-gray-600">
-            Discover our latest innovations, crafted with precision and care.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            {
-              title: "Premium Product",
-              description: "Experience unparalleled quality and design.",
-              imageUrl: "/placeholder.svg",
-            },
-            {
-              title: "Innovation Hub",
-              description: "Leading the way in technological advancement.",
-              imageUrl: "/placeholder.svg",
-            },
-            {
-              title: "Design Excellence",
-              description: "Where form meets function in perfect harmony.",
-              imageUrl: "/placeholder.svg",
-            },
-          ].map((product, index) => (
-            <ProductCard key={index} {...product} />
-          ))}
-        </div>
-      </div>
-      <Features />
+    <div className="min-h-screen relative">
+      <AnimatePresence mode="wait">
+        {isLoading ? (
+          <Suspense fallback={<LoadingFallback />}>
+            <LoadingScreen onLoadingComplete={() => {
+              startTransition(() => {
+                setIsLoading(false);
+              });
+            }} />
+          </Suspense>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ 
+              duration: 1.2,
+              ease: [0.43, 0.13, 0.23, 0.96],
+              staggerChildren: 0.1
+            }}
+          >
+            <Suspense fallback={<LoadingFallback />}>
+              <TopNavbar />
+              <BrandNavbar />
+              <div className="hidden lg:block">
+                <MainNavbarIndex />
+              </div>
+              
+              <Hero />
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: isInView ? 1 : 0 }}
+                transition={{ duration: 1.8 }}
+              >
+                <Suspense fallback={<LoadingFallback />}>
+                  <Products />
+                </Suspense>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: isInView ? 1 : 0 }}
+                transition={{ duration: 2 }}
+              >
+                <Suspense fallback={<LoadingFallback />}>
+                  <NewCollection />
+                </Suspense>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: isInView ? 1 : 0 }}
+                transition={{ duration: 2.6 }}
+              >
+                <Suspense fallback={<LoadingFallback />}>
+                  <GiftCollection />
+                </Suspense>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: isInView ? 1 : 0 }}
+                transition={{ duration: 2.8 }}
+              >
+                <Suspense fallback={<LoadingFallback />}>
+                  <BrandLocation />
+                </Suspense>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: isInView ? 1 : 0 }}
+                transition={{ duration: 3 }}
+              >
+                <Suspense fallback={<LoadingFallback />}>
+                  <Footer />
+                </Suspense>
+              </motion.div>
+
+              <Suspense fallback={null}>
+                <WhatsAppPopup />
+                <NewsletterPopup />
+              </Suspense>
+            </Suspense>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

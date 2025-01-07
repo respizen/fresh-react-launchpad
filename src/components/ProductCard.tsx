@@ -1,42 +1,39 @@
-import { useState } from "react";
-import { cn } from "@/lib/utils";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Product } from '../types/product';
 
 interface ProductCardProps {
-  title: string;
-  description: string;
-  imageUrl: string;
+  product: Product;
 }
 
-const ProductCard = ({ title, description, imageUrl }: ProductCardProps) => {
-  const [isHovered, setIsHovered] = useState(false);
+const ProductCard = ({ product }: ProductCardProps) => {
+  const navigate = useNavigate();
 
   return (
-    <div
-      className={cn(
-        "group relative rounded-2xl overflow-hidden bg-white p-6 transition-all duration-300",
-        "hover:shadow-xl hover:-translate-y-1"
-      )}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+    <div 
+      className="h-full hover:shadow-lg hover:transform hover:scale-[1.02] transition-all duration-300 cursor-pointer"
+      onClick={() => navigate(`/product/${product.id}`)}
     >
-      <div className="aspect-square rounded-xl overflow-hidden mb-6">
+      <div className="h-[300px] bg-transparent overflow-hidden mb-3">
         <img
-          src={imageUrl}
-          alt={title}
-          className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-105"
+          src={product.image}
+          alt={product.name}
+          className="w-full h-full object-contain mix-blend-normal"
+          loading="lazy"
         />
       </div>
-      <span className="inline-block px-3 py-1 text-xs font-medium bg-gray-100 rounded-full mb-3">
-        Featured
-      </span>
-      <h3 className="text-xl font-semibold mb-2">{title}</h3>
-      <p className="text-gray-600">{description}</p>
-      <div
-        className={cn(
-          "absolute bottom-0 left-0 right-0 h-1 bg-gray-900 transform origin-left transition-transform duration-300",
-          isHovered ? "scale-x-100" : "scale-x-0"
-        )}
-      />
+      <div className="p-2 md:p-4">
+        <div className="text-base font-['WomanFontRegular'] text-[#591C1C]">
+          {product.name}
+        </div>
+        <div className="text-sm text-gray-600 uppercase">
+          {product.material}<br />
+          {product.color}
+        </div>
+        <div className="mt-2 font-['WomanFontRegular'] text-black">
+          {product.price} TND
+        </div>
+      </div>
     </div>
   );
 };
