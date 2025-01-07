@@ -19,13 +19,17 @@ const ProductGrid = ({ products, onDragStart }: ProductGridProps) => {
     );
   }
 
+  const handleDragStart = (event: React.DragEvent<HTMLDivElement>, product: Product) => {
+    onDragStart(event, product);
+  };
+
   return (
     <div className="grid grid-cols-2 gap-4 overflow-y-auto flex-1 min-h-0">
       {products.map((product) => (
         <motion.div
           key={product.id}
           draggable
-          onDragStart={(e) => onDragStart(e, product)}
+          onDragStart={(e) => handleDragStart(e, product)}
           data-product-type={product.itemgroup_product}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

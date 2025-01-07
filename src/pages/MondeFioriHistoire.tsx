@@ -3,6 +3,7 @@ import TopNavbar from '../components/TopNavbar';
 import BrandNavbarSection from '../components/productsPages/BrandNavbarSection';
 import MainNavbarProduct from '../components/MainNavbarProduct';
 import Footer from '../components/Footer';
+import ProductsSection from '../components/productsPages/ProductsSection';
 
 const MondeFioriHistoire = () => {
   return (
@@ -12,7 +13,7 @@ const MondeFioriHistoire = () => {
       <MainNavbarProduct />
       <div className="container mx-auto px-4 py-16">
         <h1 className="text-4xl font-bold text-center mb-8">Notre Histoire</h1>
-        {/* Blank component - content to be added later */}
+        <ProductsSection />
       </div>
       <Footer />
     </div>
