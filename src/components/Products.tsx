@@ -29,8 +29,12 @@ const Products = () => {
     queryKey: ["products"],
     queryFn: fetchAllProducts,
     select: (data) => {
-      // Filter out products with type_product === "outlet"
-      return data.filter(product => product.type_product !== "outlet");
+      // Filter out products with type_product === "outlet" and quantity === 0
+      return data.filter(product => 
+        product.type_product !== "outlet" && 
+        product.qnty_product !== "0" &&
+        parseInt(product.qnty_product) > 0
+      );
     }
   });
 
