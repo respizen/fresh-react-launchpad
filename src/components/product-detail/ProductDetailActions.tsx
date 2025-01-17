@@ -3,15 +3,20 @@ import { Button } from "@/components/ui/button";
 import { Store, ShoppingCart } from 'lucide-react';
 
 interface ProductDetailActionsProps {
-  onAddToCart: () => void;
+  onAddToCart: (withBox?: boolean) => void;
   status: string;
+  showBoxOption?: boolean;
 }
 
-const ProductDetailActions = ({ onAddToCart, status }: ProductDetailActionsProps) => {
+const ProductDetailActions = ({ 
+  onAddToCart, 
+  status,
+  showBoxOption = false 
+}: ProductDetailActionsProps) => {
   return (
     <div className="space-y-3 p-6 border-t border-gray-100 bg-gray-50">
       <Button
-        onClick={onAddToCart}
+        onClick={() => onAddToCart()}
         className="w-full bg-[#700100] hover:bg-[#590000] text-white py-6 rounded-lg flex items-center justify-center gap-2 transition-all duration-300"
         disabled={status !== 'En stock'}
       >

@@ -20,6 +20,10 @@ const ProductDetailsDialog = ({
 }: ProductDetailsDialogProps) => {
   if (!product) return null;
 
+  const formattedDescription = product.description.split('\\n').map((line, index) => (
+    <p key={index} className="text-gray-600 py-1">{line.trim()}</p>
+  ));
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[800px] bg-white/95">
@@ -44,9 +48,9 @@ const ProductDetailsDialog = ({
             <p className="text-xl text-[#000] font-semibold">
               {product.price} TND
             </p>
-            <p className="text-xl text-[#000]">
-              {product.description}
-            </p>
+            <div className="flex flex-col space-y-2">
+              {formattedDescription}
+            </div>
             <div className="space-y-4">
               <div>
                 <h3 className="text-gray-600 font-medium mb-2">

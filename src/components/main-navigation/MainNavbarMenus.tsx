@@ -10,11 +10,15 @@ import SubMenuSection from '../navigation/SubMenuSection';
 const MainNavbarMenus = () => {
   return (
     <NavigationMenuList className="flex flex-col lg:flex-row lg:gap-4 gap-4  items-center">
-      <NavMenuItem title="Le monde Fiori" image="/Menu/Universcadeau.png">
+      <NavMenuItem title="Le monde Fiori" image="/Menu/mondefiori.png">
         <MondeFioriSection />
       </NavMenuItem>
 
-      <NavMenuItem title="L'univers Cadeaux" image="/Menu/Universcadeau.png">
+      <NavMenuItem 
+        title="L'univers Cadeaux" 
+        image="/Menu/Universcadeau.png"
+        href="/univers-cadeaux"
+      >
         <GiftUniverseMenu />
       </NavMenuItem>
 
@@ -24,36 +28,6 @@ const MainNavbarMenus = () => {
 
       <NavMenuItem title="Accessoires" image="/Menu/accessoires.png">
         <AccessoiresSection />
-      </NavMenuItem>
-
-      <NavMenuItem title="Le sur mesure" image="/Menu/lesurmesure.png">
-        <div className="grid grid-cols-2 gap-3">
-          <SubMenuSection
-            title="Homme"
-            items={[
-              {
-                href: "/category/sur-mesure/homme/portefeuilles",
-                title: "Portefeuilles",
-                description: "Portefeuilles élégants"
-              },
-              {
-                href: "/category/sur-mesure/homme/ceintures",
-                title: "Ceintures",
-                description: "Ceintures raffinées"
-              }
-            ]}
-          />
-          <SubMenuSection
-            title="Femme"
-            items={[
-              {
-                href: "/category/sur-mesure/femme/sacs-a-main",
-                title: "Sacs à main",
-                description: "Sacs à main élégants"
-              }
-            ]}
-          />
-        </div>
       </NavMenuItem>
 
       <NavMenuItem title="Outlet" image="/Menu/Ooutlet.png">
@@ -70,6 +44,21 @@ const MainNavbarMenus = () => {
                 href: "/category/outlet/homme/blazers",
                 title: "Blazers",
                 description: "Blazers en solde"
+              },
+              {
+                href: "/category/outlet/homme/chemises",
+                title: "Chemises",
+                description: "Chemises en promotion"
+              },
+              {
+                href: "/category/outlet/homme/pantalons",
+                title: "Pantalons",
+                description: "Pantalons en solde"
+              },
+              {
+                href: "/category/outlet/homme/pollo",
+                title: "Polo",
+                description: "Polos en promotion"
               }
             ]}
           />
@@ -80,6 +69,16 @@ const MainNavbarMenus = () => {
                 href: "/category/outlet/femme/chemises",
                 title: "Chemises",
                 description: "Chemises en promotion"
+              },
+              {
+                href: "/category/outlet/femme/robes",
+                title: "Robes",
+                description: "Robes en solde"
+              },
+              {
+                href: "/category/outlet/femme/vestes",
+                title: "Vestes/Manteaux",
+                description: "Vestes et manteaux en promotion"
               }
             ]}
           />

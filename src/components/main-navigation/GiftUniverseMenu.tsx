@@ -34,16 +34,6 @@ const GiftUniverseMenu = () => {
           }
         ]}
       />
-      <SubMenuSection
-        title="Pack Mono"
-        items={[
-          {
-            href: "/univers-cadeaux/packmono",
-            title: "Pack Mono",
-            description: "Pièce unique"
-          }
-        ]}
-      />
     </div>
   );
 };

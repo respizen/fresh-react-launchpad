@@ -3,6 +3,7 @@ import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
+import { useCart } from './cart/CartProvider';
 import axios from 'axios';
 
 const NewsletterPopup = () => {
@@ -10,22 +11,22 @@ const NewsletterPopup = () => {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { applyNewsletterDiscount } = useCart();
 
   useEffect(() => {
-    const hasSeenPopup = localStorage.getItem('hasSeenNewsletterPopup');
+    // Check if user has already subscribed
+    const hasSubscribed = localStorage.getItem('newsletterSubscribed');
+    const subscribedEmail = localStorage.getItem('subscribedEmail');
+    const usedDiscountEmails = JSON.parse(localStorage.getItem('usedDiscountEmails') || '[]');
     
-    if (!hasSeenPopup) {
-      const timer = setTimeout(() => {
-        setIsVisible(true);
-      }, 5000);
-
-      return () => clearTimeout(timer);
+    // Only show popup if user hasn't subscribed or hasn't used discount
+    if (!hasSubscribed && (!subscribedEmail || !usedDiscountEmails.includes(subscribedEmail))) {
+      setIsVisible(true);
     }
   }, []);
 
   const handleClose = () => {
     setIsVisible(false);
-    localStorage.setItem('hasSeenNewsletterPopup', 'true');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -33,16 +34,37 @@ const NewsletterPopup = () => {
     setIsLoading(true);
 
     try {
+      // Check if email has already used discount
+      const usedDiscountEmails = JSON.parse(localStorage.getItem('usedDiscountEmails') || '[]');
+      if (usedDiscountEmails.includes(email)) {
+        toast({
+          variant: "destructive",
+          title: "Désolé",
+          description: "Cette adresse email a déjà bénéficié de la réduction de 5%.",
+          duration: 3000,
+        });
+        setIsLoading(false);
+        return;
+      }
+
       const response = await axios.post('https://respizenmedical.com/fiori/subscribe_email.php', {
         email
       });
 
       if (response.data.status === 'success') {
+        // Save subscription status and email
+        localStorage.setItem('newsletterSubscribed', 'true');
+        localStorage.setItem('subscribedEmail', email);
+        
+        // Apply discount if available
+        applyNewsletterDiscount();
+        
         toast({
           title: "Inscription réussie !",
-          description: "Merci de vous être inscrit à notre newsletter.",
-          duration: 3000, // Set to 3 seconds
+          description: "Merci de vous être inscrit à notre newsletter. Votre réduction de 5% a été appliquée à votre panier.",
+          duration: 3000,
         });
+        
         handleClose();
       } else {
         throw new Error(response.data.message);
