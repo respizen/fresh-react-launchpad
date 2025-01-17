@@ -71,7 +71,6 @@ const GiftApp = () => {
         });
       }
 
-      // Add all items synchronously to prevent race conditionsnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
       selectedItems.forEach(item => {
         const itemToAdd = {
           ...item,
@@ -97,7 +96,6 @@ const GiftApp = () => {
         },
       });
 
-      // Immediate navigation to cart
       navigate('/cart');
     } catch (error) {
       console.error('Error adding pack to cart:', error);
@@ -166,6 +164,29 @@ const GiftApp = () => {
     playTickSound();
   };
 
+  const handleUpdateItem = (index: number, size: string, personalization: string) => {
+    setSelectedItems(prevItems => {
+      const newItems = [...prevItems];
+      newItems[index] = {
+        ...newItems[index],
+        size,
+        personalization
+      };
+      return newItems;
+    });
+    
+    toast({
+      title: "Article modifié",
+      description: "Les modifications ont été enregistrées avec succès",
+      style: {
+        backgroundColor: '#700100',
+        color: 'white',
+        border: '1px solid #590000',
+      },
+    });
+    playTickSound();
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b bg-[#f6f7f9] py-16 px-4 md:px-8">
       <div className="max-w-7xl mx-auto">
@@ -188,6 +209,7 @@ const GiftApp = () => {
               onRemoveItem={handleRemoveItem}
               containerCount={containerCount}
               onContainerSelect={setSelectedContainerIndex}
+              onUpdateItem={handleUpdateItem}
             />
           </div>
 

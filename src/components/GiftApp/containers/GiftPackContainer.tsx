@@ -1,7 +1,7 @@
 import React from 'react';
 import { Product } from '@/types/product';
 import { motion } from 'framer-motion';
-import { X } from 'lucide-react';
+import { X, Edit } from 'lucide-react';
 import { formatPrice } from '@/utils/priceCalculations';
 
 interface GiftPackContainerProps {
@@ -10,6 +10,7 @@ interface GiftPackContainerProps {
   onDrop: (e: React.DragEvent<HTMLDivElement>) => void;
   onItemClick?: (product: Product) => void;
   onRemoveItem?: (index: number) => void;
+  onEditItem?: (index: number, item: Product) => void;
   containerIndex: number;
   className?: string;
   imageScale?: number;
@@ -21,6 +22,7 @@ const GiftPackContainer = ({
   onDrop: parentOnDrop,
   onItemClick,
   onRemoveItem,
+  onEditItem,
   containerIndex,
   className = '',
   imageScale = 1,
@@ -47,6 +49,13 @@ const GiftPackContainer = ({
     if (onRemoveItem) {
       onRemoveItem(containerIndex);
       setIsDragOver(false);
+    }
+  };
+
+  const handleEditItem = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (onEditItem && item) {
+      onEditItem(containerIndex, item);
     }
   };
 
@@ -92,15 +101,26 @@ const GiftPackContainer = ({
                     {formatPrice(item.price)} TND
                   </p>
                 </div>
-                {onRemoveItem && (
-                  <button
-                    onClick={handleRemoveItem}
-                    className="absolute -top-2 -right-2 p-1 bg-red-500 text-white rounded-full opacity-100 hover:bg-red-600 transition-all duration-300 transform hover:scale-110 shadow-lg z-10"
-                    aria-label="Remove item"
-                  >
-                    <X size={14} />
-                  </button>
-                )}
+                <div className="absolute -top-2 -right-2 flex gap-2">
+                  {onEditItem && (
+                    <button
+                      onClick={handleEditItem}
+                      className="p-1 bg-[#700100] text-white rounded-full opacity-100 hover:bg-[#590000] transition-all duration-300 transform hover:scale-110 shadow-lg z-10"
+                      aria-label="Edit item"
+                    >
+                      <Edit size={14} />
+                    </button>
+                  )}
+                  {onRemoveItem && (
+                    <button
+                      onClick={handleRemoveItem}
+                      className="p-1 bg-red-500 text-white rounded-full opacity-100 hover:bg-red-600 transition-all duration-300 transform hover:scale-110 shadow-lg z-10"
+                      aria-label="Remove item"
+                    >
+                      <X size={14} />
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           </motion.div>

@@ -16,6 +16,7 @@ interface GiftBasket3DProps {
   onRemoveItem?: (index: number) => void;
   containerCount: number;
   onContainerSelect: (index: number) => void;
+  onUpdateItem?: (index: number, size: string, personalization: string) => void;
 }
 
 const GiftBasket3D = ({ 
@@ -23,14 +24,17 @@ const GiftBasket3D = ({
   onItemDrop, 
   onRemoveItem,
   containerCount,
-  onContainerSelect
+  onContainerSelect,
+  onUpdateItem
 }: GiftBasket3DProps) => {
   const [showAddDialog, setShowAddDialog] = useState(false);
+  const [showEditDialog, setShowEditDialog] = useState(false);
   const [showProductModal, setShowProductModal] = useState(false);
   const [selectedSize, setSelectedSize] = useState('');
   const [personalization, setPersonalization] = useState('');
   const [droppedItem, setDroppedItem] = useState<Product | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [editingIndex, setEditingIndex] = useState<number>(-1);
   const [targetContainer, setTargetContainer] = useState<number>(0);
   const [particlePosition, setParticlePosition] = useState<{ x: number; y: number } | null>(null);
 
@@ -75,13 +79,35 @@ const GiftBasket3D = ({
         },
         duration: 3000,
       });
-    } else {
+    }
+  };
+
+  const handleEditConfirm = () => {
+    if (editingIndex !== -1 && onUpdateItem) {
+      onUpdateItem(editingIndex, selectedSize, personalization);
+      setShowEditDialog(false);
+      setSelectedSize('');
+      setPersonalization('');
+      setEditingIndex(-1);
       toast({
-        title: "Taille requise",
-        description: "Veuillez sélectionner une taille avant d'ajouter l'article",
-        variant: "destructive",
+        title: "Article modifié",
+        description: "Les modifications ont été enregistrées avec succès",
+        style: {
+          backgroundColor: '#700100',
+          color: 'white',
+          border: '1px solid #590000',
+        },
+        duration: 3000,
       });
     }
+  };
+
+  const handleEditClick = (index: number, item: Product) => {
+    setEditingIndex(index);
+    setSelectedSize(item.size || '');
+    setPersonalization(item.personalization || '');
+    setSelectedProduct(item);
+    setShowEditDialog(true);
   };
 
   const handleProductClick = (product: Product) => {
@@ -188,6 +214,18 @@ const GiftBasket3D = ({
         onSizeSelect={setSelectedSize}
         onPersonalizationChange={setPersonalization}
         onConfirm={handleConfirm}
+      />
+
+      <AddItemDialog
+        open={showEditDialog}
+        onOpenChange={setShowEditDialog}
+        droppedItem={selectedProduct}
+        selectedSize={selectedSize}
+        personalization={personalization}
+        onSizeSelect={setSelectedSize}
+        onPersonalizationChange={setPersonalization}
+        onConfirm={handleEditConfirm}
+        isEditing={true}
       />
 
       <ProductDetailsDialog
