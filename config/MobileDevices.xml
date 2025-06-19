@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Devices>
+  <Device>iPad</Device>
+  <Device>iPhone</Device>
+  <Device>iPod</Device>
+  <Device>WindowsPhone</Device>
+  <Device>Android</Device>
+  <Device>BlackBerry</Device>
+  <Device>Nokia</Device>
+  <Device>Samsung</Device>
+  <Device>Mobile</Device>
+  <Device>ARM</Device>
+  <Device>Touch</Device>
+</Devices>
