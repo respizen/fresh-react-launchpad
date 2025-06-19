@@ -1,98 +1,101 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Product } from '@/types/product';
-import { GripVertical } from 'lucide-react';
-import { calculateDiscountedPrice } from '@/utils/priceCalculations';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { useCart } from '@/components/cart/CartProvider';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
+import { products } from '@/data/products';
+import { getProductsWithoutSizes } from '@/utils/productUtils';
 
 interface ProductGridProps {
-  products: Product[];
-  onDragStart: (event: React.DragEvent<HTMLDivElement>, product: Product) => void;
-  onProductSelect?: (product: Product) => void;
+  selectedCategory: string;
+  selectedPack: string;
+  onProductSelect: (product: any) => void;
 }
 
-const ProductGrid = ({ products, onDragStart, onProductSelect }: ProductGridProps) => {
-  const isMobile = useIsMobile();
+const ProductGrid: React.FC<ProductGridProps> = ({ 
+  selectedCategory, 
+  selectedPack, 
+  onProductSelect 
+}) => {
+  const { addItem } = useCart();
+  const productsWithoutSizes = getProductsWithoutSizes();
 
-  const handleDragStart = (e: React.DragEvent<HTMLDivElement>, product: Product) => {
-    if (!isMobile) {
-      onDragStart(e, product);
-    }
+  const filteredProducts = products.filter(product => 
+    selectedCategory === 'all' || product.category === selectedCategory
+  );
+
+  const handleAddToCart = (product: any, event: React.MouseEvent) => {
+    event.stopPropagation();
+    
+    const cartItem = {
+      id: `${product.id}-${Date.now()}`,
+      name: product.name,
+      price: product.price,
+      quantity: 1,
+      size: productsWithoutSizes.includes(product.category) ? 'unique' : undefined,
+      image: product.image,
+      category: product.category
+    };
+
+    addItem(cartItem);
   };
 
-  const handleClick = (product: Product) => {
-    if (isMobile && onProductSelect) {
-      onProductSelect(product);
-    }
+  const handleDragStart = (event: React.DragEvent<HTMLDivElement>, product: any) => {
+    event.dataTransfer.setData('application/json', JSON.stringify(product));
   };
-
-  if (products.length === 0) {
-    return (
-      <div className="flex items-center justify-center h-full">
-        <p className="text-gray-500 text-center italic">
-          Aucun article disponible pour le moment
-        </p>
-      </div>
-    );
-  }
 
   return (
-    <div className="grid grid-cols-2 gap-4 overflow-y-auto flex-1 min-h-0">
-      {products.map((product) => {
-        const hasDiscount = product.discount_product !== "" && 
-                          !isNaN(parseFloat(product.discount_product)) && 
-                          parseFloat(product.discount_product) > 0;
-        
-        const displayPrice = hasDiscount 
-          ? calculateDiscountedPrice(product.price, product.discount_product)
-          : product.price;
-
-        return (
-          <motion.div
-            key={product.id}
-            draggable={!isMobile}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      {filteredProducts.map((product) => (
+        <motion.div
+          key={product.id}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <Card 
+            className="cursor-pointer hover:shadow-lg transition-all duration-300 group"
+            draggable
             onDragStart={(e) => handleDragStart(e, product)}
-            onClick={() => handleClick(product)}
-            data-product-type={product.itemgroup_product}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2 }}
-            className={`bg-white rounded-lg shadow-sm p-4 border border-gray-100/50 hover:shadow-md transition-all ${
-              isMobile ? 'cursor-pointer active:scale-95' : 'cursor-grab active:cursor-grabbing'
-            }`}
+            onClick={() => onProductSelect(product)}
           >
-            <div className="relative">
-              {!isMobile && <GripVertical className="absolute top-0 right-0 text-gray-400" size={16} />}
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full h-24 object-contain mb-2"
-                loading="lazy"
-              />
-              <h3 className="text-sm font-medium text-gray-900 truncate">
-                {product.name}
-              </h3>
-              <div className="mt-1">
-                {hasDiscount ? (
-                  <div className="space-y-1">
-                    <p className="text-sm text-[#700100] font-medium">
-                      {displayPrice.toFixed(2)} TND
-                    </p>
-                    <p className="text-xs text-gray-500 line-through">
-                      {product.price.toFixed(2)} TND
-                    </p>
-                  </div>
-                ) : (
-                  <p className="text-sm text-[#700100] font-medium">
-                    {displayPrice.toFixed(2)} TND
-                  </p>
+            <CardContent className="p-4">
+              <div className="aspect-square relative mb-4 overflow-hidden rounded-lg bg-gray-100">
+                {product.image && (
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
                 )}
               </div>
-            </div>
-          </motion.div>
-        );
-      })}
+              
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-medium text-sm">{product.name}</h3>
+                  <Badge variant="secondary" className="text-xs">
+                    {product.category}
+                  </Badge>
+                </div>
+                
+                <p className="text-lg font-bold text-blue-600">
+                  {product.price.toFixed(2)}€
+                </p>
+                
+                <Button
+                  onClick={(e) => handleAddToCart(product, e)}
+                  className="w-full"
+                  size="sm"
+                >
+                  Ajouter au panier
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+      ))}
     </div>
   );
 };

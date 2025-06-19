@@ -1,187 +1,174 @@
+
 import React, { useState } from 'react';
-import { Product } from '@/types/product';
+import { motion } from 'framer-motion';
+import { ArrowLeft, Plus, Minus } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useCart } from '@/components/cart/CartProvider';
-import { useToast } from "@/hooks/use-toast";
-import ProductImageCarousel from './ProductImageCarousel';
-import ProductInfo from './ProductInfo';
-import PersonalizationButton from './PersonalizationButton';
-import BoxSelectionDialog from './BoxSelectionDialog';
-import SizeSelector from './SizeSelector';
-import ProductQuantitySelector from './ProductQuantitySelector';
-import ProductActions from './ProductActions';
-import GiftBoxSelection from './GiftBoxSelection';
-import { getStockForSize } from '@/utils/stockManagement';
-import { canItemBePersonalized, getPersonalizationMessage } from '@/utils/personalizationConfig';
-import { getPersonalizations } from '@/utils/personalizationStorage';
-import { calculateFinalPrice } from '@/utils/productStorage';
-import { needsSizeSelection, getDefaultSize } from '@/utils/sizeUtils';
+import { getProductsWithoutSizes } from '@/utils/productUtils';
 
 interface ProductDetailContainerProps {
-  product: Product;
-  onProductAdded?: (productName: string) => void;
+  product: any;
+  onBack: () => void;
 }
 
-const ProductDetailContainer = ({ product, onProductAdded }: ProductDetailContainerProps) => {
-  const [quantity, setQuantity] = useState(1);
-  const [personalizationText, setPersonalizationText] = useState(() => {
-    const savedPersonalizations = getPersonalizations();
-    return savedPersonalizations[product.id] || '';
-  });
-  const [selectedBoxOption, setSelectedBoxOption] = useState<boolean | null>(null);
-  const [isBoxDialogOpen, setIsBoxDialogOpen] = useState(false);
-  const { addToCart } = useCart();
-  const { toast } = useToast();
-  const [selectedSize, setSelectedSize] = useState(() => getDefaultSize(product.itemgroup_product));
+const ProductDetailContainer: React.FC<ProductDetailContainerProps> = ({ product, onBack }) => {
+  const { addItem } = useCart();
+  const [selectedSize, setSelectedSize] = useState<string>('');
+  const [personalization, setPersonalization] = useState<string>('');
+  const [quantity, setQuantity] = useState<number>(1);
+  const productsWithoutSizes = getProductsWithoutSizes();
 
-  const getAvailableSizes = () => {
-    const sizeEntries = Object.entries(product.sizes);
-    return sizeEntries
-      .filter(([_, quantity]) => quantity > 0 && quantity !== '')
-      .map(([size]) => size.toUpperCase());
-  };
+  const needsSize = !productsWithoutSizes.includes(product.category);
 
-  const canPersonalize = canItemBePersonalized(product.itemgroup_product);
-  const personalizationMessage = getPersonalizationMessage(product.itemgroup_product);
-  const requiresSizeSelection = needsSizeSelection(product.itemgroup_product);
-
-  const productImages = [
-    product.image,
-    product.image2,
-    product.image3,
-    product.image4,
-  ].filter(Boolean);
-
-  const handleAddToCart = (withBox?: boolean) => {
-    if (!selectedSize && requiresSizeSelection) {
-      toast({
-        title: "Erreur",
-        description: "Veuillez sélectionner une taille",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    const availableStock = requiresSizeSelection ? getStockForSize(product, selectedSize) : product.quantity;
-    if (quantity > availableStock) {
-      toast({
-        title: "Stock insuffisant",
-        description: requiresSizeSelection 
-          ? `Il ne reste que ${availableStock} articles en stock pour la taille ${selectedSize}`
-          : `Il ne reste que ${availableStock} articles en stock`,
-        variant: "destructive",
-      });
-      return;
-    }
-
-    const hasDiscount = product.discount_product !== "" && 
-                       !isNaN(parseFloat(product.discount_product)) && 
-                       parseFloat(product.discount_product) > 0;
+  const handleAddToCart = () => {
+    const finalSize = needsSize ? selectedSize : 'unique';
     
-    const finalPrice = calculateFinalPrice(product.price, product.discount_product);
-
-    addToCart({
-      id: product.id,
-      name: product.name,
-      price: finalPrice,
-      originalPrice: hasDiscount ? product.price : undefined,
-      quantity: quantity,
-      image: product.image,
-      size: selectedSize,
-      personalization: personalizationText,
-      withBox: withBox,
-      discount_product: product.discount_product,
-    });
-
-    onProductAdded?.(product.name);
-  };
-
-  const handleInitialAddToCart = () => {
-    if (product.itemgroup_product === 'chemises') {
-      if (selectedBoxOption !== null) {
-        handleAddToCart(selectedBoxOption);
-      } else {
-        setIsBoxDialogOpen(true);
-      }
-    } else {
-      handleAddToCart(false);
+    if (needsSize && !selectedSize) {
+      alert('Veuillez sélectionner une taille');
+      return;
     }
+
+    const cartItem = {
+      id: `${product.id}-${Date.now()}`,
+      name: product.name,
+      price: product.price,
+      quantity,
+      size: finalSize,
+      personalization: personalization || undefined,
+      image: product.image,
+      category: product.category
+    };
+
+    addItem(cartItem);
+    onBack();
   };
 
   return (
-    <div className="grid lg:grid-cols-2 gap-12">
-      <div className="relative">
-        <ProductImageCarousel images={productImages} name={product.name} />
-      </div>
+    <motion.div
+      initial={{ opacity: 0, x: 50 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -50 }}
+      className="max-w-4xl mx-auto"
+    >
+      <Button
+        variant="ghost"
+        onClick={onBack}
+        className="mb-6 flex items-center gap-2"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Retour
+      </Button>
 
-      <div className="space-y-8">
-        <ProductInfo 
-          name={product.name}
-          description={product.description}
-          price={product.price}
-          discount={product.discount_product}
-        />
-
-        {canPersonalize && (
-          <div className="mt-6">
-            <PersonalizationButton
-              productId={product.id}
-              onSave={setPersonalizationText}
-              initialText={personalizationText}
-              itemgroup_product={product.itemgroup_product}
-            />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="space-y-4">
+          <div className="aspect-square relative overflow-hidden rounded-lg bg-gray-100">
+            {product.image && (
+              <img
+                src={product.image}
+                alt={product.name}
+                className="w-full h-full object-cover"
+              />
+            )}
           </div>
-        )}
-
-        {!canPersonalize && personalizationMessage && (
-          <div className="text-sm text-gray-500 italic">
-            {personalizationMessage}
-          </div>
-        )}
-        
-        <div className="h-px bg-gray-200" />
-
-        <div className="space-y-6">
-          {requiresSizeSelection && (
-            <SizeSelector
-              selectedSize={selectedSize}
-              sizes={getAvailableSizes()}
-              onSizeSelect={setSelectedSize}
-              isCostume={product.itemgroup_product === 'costumes'}
-              itemGroup={product.itemgroup_product}
-            />
-          )}
-
-          <ProductQuantitySelector
-            quantity={quantity}
-            setQuantity={setQuantity}
-            selectedSize={selectedSize}
-            product={product}
-          />
-
-          {product.itemgroup_product === 'chemises' && (
-            <GiftBoxSelection
-              selectedBoxOption={selectedBoxOption}
-              setSelectedBoxOption={setSelectedBoxOption}
-            />
-          )}
-
-          <ProductActions
-            handleInitialAddToCart={handleInitialAddToCart}
-            product={product}
-            selectedSize={selectedSize}
-          />
         </div>
-      </div>
 
-      <BoxSelectionDialog
-        isOpen={isBoxDialogOpen}
-        onClose={() => setIsBoxDialogOpen(false)}
-        onConfirm={(withBox) => {
-          handleAddToCart(withBox);
-          setIsBoxDialogOpen(false);
-        }}
-      />
-    </div>
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-2xl">{product.name}</CardTitle>
+              <Badge variant="secondary">{product.category}</Badge>
+            </div>
+            <p className="text-3xl font-bold text-blue-600">
+              {product.price.toFixed(2)}€
+            </p>
+          </CardHeader>
+
+          <CardContent className="space-y-6">
+            {product.description && (
+              <p className="text-gray-600">{product.description}</p>
+            )}
+
+            {needsSize && (
+              <div className="space-y-2">
+                <Label htmlFor="size">Taille *</Label>
+                <Select value={selectedSize} onValueChange={setSelectedSize}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Sélectionner une taille" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {product.sizes?.map((size: string) => (
+                      <SelectItem key={size} value={size}>
+                        {size}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            <div className="space-y-2">
+              <Label htmlFor="personalization">Personnalisation (optionnel)</Label>
+              <Input
+                id="personalization"
+                value={personalization}
+                onChange={(e) => setPersonalization(e.target.value)}
+                placeholder="Texte de personnalisation..."
+                maxLength={50}
+              />
+              <p className="text-xs text-gray-500">
+                Maximum 50 caractères ({personalization.length}/50)
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label>Quantité</Label>
+              <div className="flex items-center gap-3">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  disabled={quantity <= 1}
+                >
+                  <Minus className="w-4 h-4" />
+                </Button>
+                <span className="font-medium text-lg w-8 text-center">
+                  {quantity}
+                </span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setQuantity(quantity + 1)}
+                >
+                  <Plus className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+
+            <div className="pt-4 border-t">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-lg font-medium">Total:</span>
+                <span className="text-2xl font-bold text-blue-600">
+                  {(product.price * quantity).toFixed(2)}€
+                </span>
+              </div>
+              
+              <Button
+                onClick={handleAddToCart}
+                className="w-full"
+                size="lg"
+              >
+                Ajouter au panier
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </motion.div>
   );
 };
 
