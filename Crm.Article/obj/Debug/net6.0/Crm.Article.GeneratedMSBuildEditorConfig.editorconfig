@@ -1,0 +1,143 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = Crm.Article
+build_property.RootNamespace = Crm.Article
+build_property.ProjectDir = C:\Source\crm6\src\Crm.Web\Plugins\Crm.Article\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Source\crm6\src\Crm.Web\Plugins\Crm.Article
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/ArticleCompanyRelationship/CompanyDetailsRelationshipTypeActionExtension.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJ0aWNsZUNvbXBhbnlSZWxhdGlvbnNoaXBcQ29tcGFueURldGFpbHNSZWxhdGlvbnNoaXBUeXBlQWN0aW9uRXh0ZW5zaW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/ArticleCompanyRelationship/CompanyDetailsRelationshipTypeExtension.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJ0aWNsZUNvbXBhbnlSZWxhdGlvbnNoaXBcQ29tcGFueURldGFpbHNSZWxhdGlvbnNoaXBUeXBlRXh0ZW5zaW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/ArticleCompanyRelationship/MaterialItemExtensions.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJ0aWNsZUNvbXBhbnlSZWxhdGlvbnNoaXBcTWF0ZXJpYWxJdGVtRXh0ZW5zaW9ucy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/ArticleCompanyRelationship/MaterialItemTemplateActions.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJ0aWNsZUNvbXBhbnlSZWxhdGlvbnNoaXBcTWF0ZXJpYWxJdGVtVGVtcGxhdGVBY3Rpb25zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/ArticleDetails/MaterialDetailsTab.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJ0aWNsZURldGFpbHNcTWF0ZXJpYWxEZXRhaWxzVGFiLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/ArticleDetails/MaterialDetailsTabHeader.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJ0aWNsZURldGFpbHNcTWF0ZXJpYWxEZXRhaWxzVGFiSGVhZGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/ArticleGroup/LookupPropertyEditImage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJ0aWNsZUdyb3VwXExvb2t1cFByb3BlcnR5RWRpdEltYWdlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/ArticleList/MaterialArticleListThumbnail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJ0aWNsZUxpc3RcTWF0ZXJpYWxBcnRpY2xlTGlzdFRodW1ibmFpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/ArticleList/MaterialItemContextMenu.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJ0aWNsZUxpc3RcTWF0ZXJpYWxJdGVtQ29udGV4dE1lbnUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/ArticleList/MaterialItemTemplate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJ0aWNsZUxpc3RcTWF0ZXJpYWxJdGVtVGVtcGxhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/ArticleList/MaterialPrimaryAction.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJ0aWNsZUxpc3RcTWF0ZXJpYWxQcmltYXJ5QWN0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/ArticleRelationship/EditTemplate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJ0aWNsZVJlbGF0aW9uc2hpcFxFZGl0VGVtcGxhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/ArticleRelationship/ItemTemplateAction.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJ0aWNsZVJlbGF0aW9uc2hpcFxJdGVtVGVtcGxhdGVBY3Rpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/ArticleRelationship/MaterialItemExtensions.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJ0aWNsZVJlbGF0aW9uc2hpcFxNYXRlcmlhbEl0ZW1FeHRlbnNpb25zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/Article/CreateTemplate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJ0aWNsZVxDcmVhdGVUZW1wbGF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/Article/DetailsTemplate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJ0aWNsZVxEZXRhaWxzVGVtcGxhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/Article/RelationshipsTab.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJ0aWNsZVxSZWxhdGlvbnNoaXBzVGFiLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/Article/RelationshipsTabHeader.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJ0aWNsZVxSZWxhdGlvbnNoaXBzVGFiSGVhZGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/ProductFamilyDetails/MaterialDetailsTab.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdEZhbWlseURldGFpbHNcTWF0ZXJpYWxEZXRhaWxzVGFiLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/ProductFamilyDetails/MaterialDetailsTabHeader.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdEZhbWlseURldGFpbHNcTWF0ZXJpYWxEZXRhaWxzVGFiSGVhZGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/ProductFamilyDetails/ProductFamilyChildrenList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdEZhbWlseURldGFpbHNcUHJvZHVjdEZhbWlseUNoaWxkcmVuTGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/ProductFamilyDetails/ProductFamilyDescriptions.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdEZhbWlseURldGFpbHNcUHJvZHVjdEZhbWlseURlc2NyaXB0aW9ucy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/ProductFamilyList/ActionDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdEZhbWlseUxpc3RcQWN0aW9uRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/ProductFamilyList/MaterialItemTemplate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdEZhbWlseUxpc3RcTWF0ZXJpYWxJdGVtVGVtcGxhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/ProductFamilyList/MaterialPrimaryAction.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdEZhbWlseUxpc3RcTWF0ZXJpYWxQcmltYXJ5QWN0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/ProductFamily/CreateTemplate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdEZhbWlseVxDcmVhdGVUZW1wbGF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/ProductFamily/DetailsTemplate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdEZhbWlseVxEZXRhaWxzVGVtcGxhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/ProductFamily/EditTemplate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdEZhbWlseVxFZGl0VGVtcGxhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/Shared/ArticleImageModal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEFydGljbGVJbWFnZU1vZGFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/Shared/MaterialArticle.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXE1hdGVyaWFsQXJ0aWNsZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Source/crm6/src/Crm.Web/Plugins/Crm.Article/Views/Shared/MaterialArticleContextMenu.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXE1hdGVyaWFsQXJ0aWNsZUNvbnRleHRNZW51LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 

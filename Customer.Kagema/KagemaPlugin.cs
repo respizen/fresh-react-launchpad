@@ -1,4 +1,3 @@
-
 ﻿using Crm.Library.Configuration;
 using Crm.Library.Modularization;
 
@@ -29,8 +28,6 @@ namespace Customer.Kagema
 			public static SettingDefinition<string> UncDomain => new SettingDefinition<string>("UncDomain", PluginName);
 			public static SettingDefinition<string> UncPassword => new SettingDefinition<string>("UncPassword", PluginName);
 			public static SettingDefinition<bool> DisableDispatchReportAttachments => new SettingDefinition<bool>("DisableDispatchReportAttachments", PluginName);
-			public static SettingDefinition<bool> RefreshChecklistsOnFormUpdate => new SettingDefinition<bool>("RefreshChecklistsOnFormUpdate", PluginName);
-			
 			public static class EnvironmentSettings
 			{
 				public static SettingDefinition<string> EnvironmentName => new SettingDefinition<string>("EnvironmentName", PluginName);
